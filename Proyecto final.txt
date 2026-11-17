@@ -1,0 +1,28 @@
+Proyecto final:
+
+ Sistema de reconocimiento facial (como un portero eléctrico)
+
+ Arquitectura
+
+ tp-proyecto-final/
+│
+├── .venv/
+│
+├── data/
+│   ├── known_faces/
+│   └── encodings/
+│
+├── src/
+│   ├── face_detector.py
+│   ├── face_encoder.py
+│   ├── database.py
+│   ├── recognizer.py
+│   └── utils.py
+│
+├── tests/
+│
+├── requirements.txt
+│
+├── main.py
+│
+└── README.md
