@@ -1,0 +1,27 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconocimiento Facial</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>  
+    <h1>Reconocimiento Facial</h1>
+    <div class="container" id="main-container">
+        <div id="upload-selection">
+            <h2>Usuarios Registrados</h2>
+            <input type="file" id="user_folder" webkitdirectory directory multiple>
+            <h2>Imagen a Reconocer</h2>
+            <input type="file" id="image-input" accept="image/*">
+            <img id="image-preview">
+            <button id="recognize-button">Reconocer rostro</button>
+            <div id="result-section">
+                <h2>Resultado</h2>
+                <p id="person-name">Nombre: </p>
+                <p id="score-value">Score: </p>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
