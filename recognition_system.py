@@ -41,13 +41,34 @@ class FaceRecognitionSystem:
     
     print("Base de datos cargada")
 
+    def recognize_image(self, image):
+        
+        faces = self.detector.detect(image)
+        
+        if faces is None or len(faces) == 0:
+            return None, 0
+
+        embedding = self.encoder.encode(
+            image,
+            faces[0]
+        )
+
+        person_name, similarity = self.recognizer.recognize(
+            embedding,
+            self.database
+        )
+        return person_name,similarity
+    
+
 if __name__ == "__main__":
     
     system = FaceRecognitionSystem()
 
     system.load_known_faces("data/known_faces")
 
-    for person_name,embeddings in system.database.get_database().items():
-        print(
-            f"Persona: {person_name} | Embeddings cargados {len(embeddings)}"
-        )
+    test_image = system.loader.load("data/test/Leonel.jpg")
+
+    person_name, similarity = system.recognize_image(test_image)
+
+    print(f"Persona: {person_name}")
+    print(f"Score: {similarity:.4f}")
