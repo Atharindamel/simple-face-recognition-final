@@ -37,9 +37,13 @@ recongnizeButton.addEventListener("click", async function() {
 
     const result = await response.json();
 
-    personName.textContent = 
-        "Nombre: " + result.person_name;
-
+    if (result.personName === Null) {
+        personName.textContent = "Nombre: No reconocido";
+    } else {    
+        personName.textContent = 
+            "Nombre: " + result.person_name;
+    }
+    
     scoreValue.textContent =
         "Score: " + result.score.toFixed(4);
 });
