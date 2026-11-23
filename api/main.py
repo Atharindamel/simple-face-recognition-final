@@ -64,7 +64,7 @@ async def add_person(
 
         loaded_images.append(image)
 
-    system.add_person(
+    result = system.add_person(
         person_name,
         loaded_images
     )
@@ -72,6 +72,7 @@ async def add_person(
     return {
         "message": "Usuario recibido correctamente",
         "person_name": person_name,
-        "images_received": len(images)
+        "images_received": len(images),
+        **result
     }
 

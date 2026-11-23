@@ -64,12 +64,14 @@ class FaceRecognitionSystem:
     def add_person(self, person_name, images):
 
         embeddings_added = 0
+        images_without_face = 0
 
         for image in images:
 
             faces = self.detector.detect(image)
 
             if faces is None or len(faces) == 0:
+                images_without_face += 1
                 continue
 
             embedding = self.encoder.encode(
@@ -84,11 +86,12 @@ class FaceRecognitionSystem:
 
             embeddings_added +=1
 
-            print(
-                f"Usuario {person_name} agregado. "
-                f"Embeddings: {embeddings_added}"
-            )
+        return{
+            "embeddings_added": embeddings_added,
+            "images_without_face": images_without_face
+        }
 
+        
 if __name__ == "__main__":
     
     system = FaceRecognitionSystem()
