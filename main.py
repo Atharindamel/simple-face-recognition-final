@@ -19,16 +19,11 @@ def build_database(
         
             known_image = loader.load(str(image_path))
 
-            # print(f"\nProcesando {image_path}")
-            # print(f"Tamaño de imagen: {known_image.shape}")
-
             known_faces_yunet = yunet_detector.detect(known_image)
 
             if known_faces_yunet is None or len(known_faces_yunet) == 0:
                 print(f"No se detectaron rostros en la imagen. {image_path}")
                 continue
-
-            # print(f"Resultado de YuNet: {known_faces_yunet}")
 
             known_embedding = encoder.encode(
                 known_image,
@@ -43,7 +38,9 @@ def build_database(
     return database
 
 def main():
+    
     # ===INICIALIZACIÓN DE COMPONENTES===
+    
     loader = ImageLoader()
     yunet_detector = YuNetDetector()
     encoder = FaceEncoder()

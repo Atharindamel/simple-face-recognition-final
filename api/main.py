@@ -49,10 +49,25 @@ def recognize(image: UploadFile = File(...)):
     }
 
 @app.post("/add-person")
-def add_person(
+async def add_person(
     person_name: str = Form(...),
     images: list[UploadFile] = File(...)
 ):
+
+    loaded_images = []
+
+    for image_file in images:
+
+        content = await image_file.read()
+
+        image = system.loader.load_bytes(content)
+
+        loaded_images.append(image)
+
+    system.add_person(
+        person_name,
+        loaded_images
+    )
 
     return {
         "message": "Usuario recibido correctamente",

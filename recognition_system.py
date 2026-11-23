@@ -39,7 +39,7 @@ class FaceRecognitionSystem:
                     embedding
                 )
     
-    print("Base de datos cargada")
+        print("Base de datos cargada")
 
     def recognize_image(self, image_path):
 
@@ -60,7 +60,34 @@ class FaceRecognitionSystem:
             self.database
         )
         return person_name,similarity
-    
+
+    def add_person(self, person_name, images):
+
+        embeddings_added = 0
+
+        for image in images:
+
+            faces = self.detector.detect(image)
+
+            if faces is None or len(faces) == 0:
+                continue
+
+            embedding = self.encoder.encode(
+                image,
+                faces[0]
+            )
+
+            self.database.add_embedding(
+                person_name,
+                embedding
+            )
+
+            embeddings_added +=1
+
+            print(
+                f"Usuario {person_name} agregado. "
+                f"Embeddings: {embeddings_added}"
+            )
 
 if __name__ == "__main__":
     
