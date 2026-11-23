@@ -41,7 +41,9 @@ class FaceRecognitionSystem:
     
     print("Base de datos cargada")
 
-    def recognize_image(self, image):
+    def recognize_image(self, image_path):
+
+        image = self.loader.load(image_path)
         
         faces = self.detector.detect(image)
         
@@ -66,9 +68,9 @@ if __name__ == "__main__":
 
     system.load_known_faces("data/known_faces")
 
-    test_image = system.loader.load("data/test/Leonel.jpg")
-
-    person_name, similarity = system.recognize_image(test_image)
+    person_name, similarity = system.recognize_image(
+        "data/test/Leonel.jpg"
+        )
 
     print(f"Persona: {person_name}")
     print(f"Score: {similarity:.4f}")

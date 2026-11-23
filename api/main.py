@@ -1,6 +1,24 @@
 from fastapi import FastAPI, UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
+from recognition_system import FaceRecognitionSystem
+import shutil
+from pathlib import Path
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+system = FaceRecognitionSystem()
+system.load_known_faces("data/known_faces")
+
+TEMP_FOLDER = Path("temp")
+TEMP_FOLDER.mkdir(exist_ok=True)
 
 @app.get("/")
 def home():
@@ -17,6 +35,15 @@ def test():
 
 @app.post("/recognize")
 def recognize(image: UploadFile = File(...)):
-    return {
-        "archivo": image.filename
+    
+    image_path = TEMP_FOLDER / image.filename
+
+    with open(image_path,"wb") as buffer:
+        shutil.copyfileobj(image.file, buffer)
+
+    person_name, score = system.recognize_image(str(image_path))
+
+    return{
+        "person_name": person_name,
+        "score": score
     }
