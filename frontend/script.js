@@ -65,3 +65,38 @@ userFolder.addEventListener("change", function () {
     console.log("Persona:", selectedPersonName);
     console.log("Cantidad:", selectedFiles.length);
 });
+
+registerButton.addEventListener("click", async function () {
+
+    if (selectedFiles.length === 0){
+        console.log("No hay carpeta seleccionada");
+        return;
+    }
+
+    const formData = new FormData();
+
+    formData.append(
+        "person_name",
+        selectedPersonName
+    );
+
+    selectedFiles.forEach(file => {
+        formData.append(
+            "images",
+            file
+        );
+    });
+    
+    const response = await fetch(
+        "http://127.0.0.1:8000/add-person",
+        {
+            method: "POST",
+            body: formData
+        }
+    );
+
+    const result = await response.json();
+
+    console.log(result);
+    
+});

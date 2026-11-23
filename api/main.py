@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from recognition_system import FaceRecognitionSystem
 import shutil
@@ -47,3 +47,16 @@ def recognize(image: UploadFile = File(...)):
         "person_name": person_name,
         "score": score
     }
+
+@app.post("/add-person")
+def add_person(
+    person_name: str = Form(...),
+    images: list[UploadFile] = File(...)
+):
+
+    return {
+        "message": "Usuario recibido correctamente",
+        "person_name": person_name,
+        "images_received": len(images)
+    }
+
