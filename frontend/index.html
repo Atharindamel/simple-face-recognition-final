@@ -10,12 +10,22 @@
     <h1>Reconocimiento Facial</h1>
     <div class="container" id="main-container">
         <div id="upload-section">
+
             <h2>Usuarios Registrados</h2>
             <input type="file" id="user-folder" webkitdirectory directory multiple>
+
+            <button id="register-button">
+                Registrar usuario
+            </button>
+
+
             <h2>Imagen a Reconocer</h2>
             <input type="file" id="image-input" accept="image/*">
+
             <img id="preview-image">
+
             <button id="recognize-button">Reconocer rostro</button>
+
             <div id="result-section">
                 <h2>Resultado</h2>
                 <p id="person-name">Nombre: </p>

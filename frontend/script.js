@@ -1,9 +1,14 @@
-const imageInput = document.getElementById('image-input');
-const imagePreview = document.getElementById('preview-image');
-const recongnizeButton = document.getElementById('recognize-button');
+const userFolder = document.getElementById("user-folder");
+const registerButton = document.getElementById("register-button");
+const imageInput = document.getElementById("image-input");
+const imagePreview = document.getElementById("preview-image");
+const recongnizeButton = document.getElementById("recognize-button");
 
 const personName = document.getElementById("person-name");
-const scoreValue = document.getElementById("score-value")
+const scoreValue = document.getElementById("score-value");
+
+let selectedFiles = [];
+let selectedPersonName = "";
 
 imageInput.addEventListener("change", function() {
     const file = imageInput.files[0];
@@ -37,13 +42,26 @@ recongnizeButton.addEventListener("click", async function() {
 
     const result = await response.json();
 
-    if (result.personName === Null) {
+    if (result.personName === null) {
         personName.textContent = "Nombre: No reconocido";
     } else {    
         personName.textContent = 
             "Nombre: " + result.person_name;
     }
-    
+
     scoreValue.textContent =
         "Score: " + result.score.toFixed(4);
+});
+
+userFolder.addEventListener("change", function () {
+    selectedFiles = [...userFolder.files];
+
+    if (selectedFiles.length === 0) {
+        return;
+    }
+
+    selectedPersonName = selectedFiles[0].webkitRelativePath.split("/")[0];
+
+    console.log("Persona:", selectedPersonName);
+    console.log("Cantidad:", selectedFiles.length);
 });
