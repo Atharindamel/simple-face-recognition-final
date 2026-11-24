@@ -1,8 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from recognition_system import FaceRecognitionSystem
-import shutil
-from pathlib import Path
 import traceback
 
 app = FastAPI()
@@ -27,9 +25,6 @@ def get_system():
         system.load_known_faces("data/known_faces")
 
     return system
-
-TEMP_FOLDER = Path("temp")
-TEMP_FOLDER.mkdir(exist_ok=True)
 
 @app.get("/debug")
 def debug():
