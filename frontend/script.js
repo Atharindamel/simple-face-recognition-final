@@ -6,7 +6,7 @@ const recognizeButton = document.getElementById("recognize-button");
 
 const personName = document.getElementById("person-name");
 const scoreValue = document.getElementById("score-value");
-const API_URL = "https://simple-face-recognition-final-ln3vrm45f-sombreros-de-paja.vercel.app";
+const API_URL = "https://simple-face-recognition-final.vercel.app";
 
 let selectedFiles = [];
 let selectedPersonName = "";
