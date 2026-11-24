@@ -8,7 +8,7 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://simple-face-recognition-final-frontend-mak0kgsae.vercel.app"
+        "https://simple-face-recognition-final-front.vercel.app",
     ],
     allow_credentials=False,
     allow_methods=["*"],
