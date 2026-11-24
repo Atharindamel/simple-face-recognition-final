@@ -1,5 +1,6 @@
 const userFolder = document.getElementById("user-folder");
 const registerButton = document.getElementById("register-button");
+const registerResult = document.getElementById("register-result")
 const imageInput = document.getElementById("image-input");
 const imagePreview = document.getElementById("preview-image");
 const recognizeButton = document.getElementById("recognize-button");
@@ -99,6 +100,14 @@ registerButton.addEventListener("click", async function () {
 
     const result = await response.json();
 
-    console.log(result);
+    if (result.error) {
+        registerResult.textContent = "Error al registrar: " + result.error;
+    } else {
+        registerResult.textContent = 
+            `Usuario ${result.person_name} registrado.
+            Imágenes recibidas: ${result.images_received}.
+            Rostros agregados: ${result.embedding_added}.
+            Imágenes sin rostro: ${result.images_without_face}.`;
+    }
     
 });
