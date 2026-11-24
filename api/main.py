@@ -21,6 +21,12 @@ system = None
 TEMP_FOLDER = Path("temp")
 TEMP_FOLDER.mkdir(exist_ok=True)
 
+@app.get("/debug")
+def debug():
+    return {
+        "database": list(system.database.get_database().keys())
+    }
+
 @app.get("/test-vercel")
 def test_vercel():
     return {
