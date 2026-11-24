@@ -18,6 +18,15 @@ app.add_middleware(
 # system.load_known_faces("data/known_faces")
 system = None
 
+def get_system():
+    global system
+
+    if system is None:
+        system = FaceRecognitionSystem()
+        system.load_known_faces("data/known_faces")
+
+    return system
+
 TEMP_FOLDER = Path("temp")
 TEMP_FOLDER.mkdir(exist_ok=True)
 
