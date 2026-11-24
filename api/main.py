@@ -101,26 +101,19 @@ async def add_person(
     try:
         system = get_system()
 
-        loaded_images = []
+        content = await image.read()
 
-        for image_file in images:
-
-            content = await image_file.read()
-
-            image = system.loader.load_bytes(content)
-
-            loaded_images.append(image)
-
+        loaded_image = system.loader.load_bytes(content)
 
         result = system.add_person(
             person_name,
-            loaded_images
+            [loaded_image]
         )
 
         return {
             "message": "Usuario recibido correctamente",
             "person_name": person_name,
-            "images_received": len(images),
+            "images_received": 1,
             **result
         }
     except Exception as e:
