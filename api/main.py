@@ -8,7 +8,7 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -95,27 +95,34 @@ async def recognize(image: UploadFile = File(...)):
 @app.post("/add-person")
 async def add_person(
     person_name: str = Form(...),
-    image: UploadFile = File(...)
+    images: list[UploadFile] = File(...)
 ):
 
     try:
         system = get_system()
 
-        content = await image.read()
+        loaded_images = []
 
-        loaded_image = system.loader.load_bytes(content)
+        for image_file in images:
+
+            content = await image_file.read()
+
+            image = system.loader.load_bytes(content)
+
+            loaded_images.append(image)
 
         result = system.add_person(
             person_name,
-            [loaded_image]
+            loaded_images
         )
 
         return {
             "message": "Usuario recibido correctamente",
             "person_name": person_name,
-            "images_received": 1,
+            "images_received": len(images),
             **result
         }
+    
     except Exception as e:
         return {
             "error": str(e),

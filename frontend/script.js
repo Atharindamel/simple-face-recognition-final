@@ -2,10 +2,11 @@ const userFolder = document.getElementById("user-folder");
 const registerButton = document.getElementById("register-button");
 const imageInput = document.getElementById("image-input");
 const imagePreview = document.getElementById("preview-image");
-const recongnizeButton = document.getElementById("recognize-button");
+const recognizeButton = document.getElementById("recognize-button");
 
 const personName = document.getElementById("person-name");
 const scoreValue = document.getElementById("score-value");
+const API_URL = "https://simple-face-recognition-final-ln3vrm45f-sombreros-de-paja.vercel.app";
 
 let selectedFiles = [];
 let selectedPersonName = "";
@@ -21,7 +22,7 @@ imageInput.addEventListener("change", function() {
 
 })
 
-recongnizeButton.addEventListener("click", async function() {
+recognizeButton.addEventListener("click", async function() {
     const file = imageInput.files[0];
 
     if (!file) {
@@ -30,10 +31,11 @@ recongnizeButton.addEventListener("click", async function() {
     }
 
     const formData = new FormData();
+
     formData.append("image", file);
 
     const response = await fetch(
-        "/recognize",
+        `${API_URL}/recognize`,
         {
             method: "POST",
             body: formData
@@ -42,7 +44,7 @@ recongnizeButton.addEventListener("click", async function() {
 
     const result = await response.json();
 
-    if (result.personName === null) {
+    if (result.person_name === null) {
         personName.textContent = "Nombre: No reconocido";
     } else {    
         personName.textContent = 
@@ -88,7 +90,7 @@ registerButton.addEventListener("click", async function () {
     });
     
     const response = await fetch(
-        "/add-person",
+        `${API_URL}/add-person`,
         {
             method: "POST",
             body: formData
