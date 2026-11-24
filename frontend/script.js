@@ -33,7 +33,7 @@ recongnizeButton.addEventListener("click", async function() {
     formData.append("image", file);
 
     const response = await fetch(
-        "http://127.0.0.1:8000/recognize",
+        "/recognize",
         {
             method: "POST",
             body: formData
@@ -88,7 +88,7 @@ registerButton.addEventListener("click", async function () {
     });
     
     const response = await fetch(
-        "http://127.0.0.1:8000/add-person",
+        "/add-person",
         {
             method: "POST",
             body: formData
