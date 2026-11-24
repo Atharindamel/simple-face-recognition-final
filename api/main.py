@@ -4,7 +4,9 @@ from recognition_system import FaceRecognitionSystem
 import shutil
 from pathlib import Path
 
-app = FastAPI()
+app = FastAPI(
+    root_path="/api"
+)
 
 app.add_middleware(
     CORSMiddleware,
