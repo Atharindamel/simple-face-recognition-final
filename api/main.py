@@ -102,29 +102,36 @@ async def add_person(
     person_name: str = Form(...),
     images: list[UploadFile] = File(...)
 ):
-    
-    system = get_system()
 
-    loaded_images = []
+    try:
+        system = get_system()
 
-    for image_file in images:
+        loaded_images = []
 
-        content = await image_file.read()
+        for image_file in images:
 
-        image = system.loader.load_bytes(content)
+            content = await image_file.read()
 
-        loaded_images.append(image)
+            image = system.loader.load_bytes(content)
+
+            loaded_images.append(image)
 
 
-    result = system.add_person(
-        person_name,
-        loaded_images
-    )
+        result = system.add_person(
+            person_name,
+            loaded_images
+        )
 
-    return {
-        "message": "Usuario recibido correctamente",
-        "person_name": person_name,
-        "images_received": len(images),
-        **result
-    }
+        return {
+            "message": "Usuario recibido correctamente",
+            "person_name": person_name,
+            "images_received": len(images),
+            **result
+        }
+    except Exception as e:
+        return {
+            "error": str(e),
+            "type": type(e).__name__,
+            "trace": traceback.format_exc()
+        }
 
