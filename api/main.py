@@ -95,7 +95,7 @@ async def recognize(image: UploadFile = File(...)):
 @app.post("/add-person")
 async def add_person(
     person_name: str = Form(...),
-    images: list[UploadFile] = File(...)
+    images: UploadFile = File(...)
 ):
 
     try:
