@@ -58,19 +58,34 @@ def test():
     }
 
 @app.post("/recognize")
-def recognize(image: UploadFile = File(...)):
+async def recognize(image: UploadFile = File(...)):
 
     try:
-        image_path = TEMP_FOLDER / image.filename
-
-        with open(image_path,"wb") as buffer:
-            shutil.copyfileobj(image.file, buffer)
-
         system = get_system()
 
-        person_name, score = system.recognize_image(str(image_path))
+        content = await image.read()
 
-        return{
+        loaded_image = system.loader.load_bytes(content)
+
+        faces =system.detector.detect(loaded_image)
+
+        if faces is None or len(faces) == 0:
+            return{
+                "person_name": person_name,
+                "score": score
+            }
+
+        embedding = system.encoder.encode(
+            loaded_image,
+            faces[0]
+        )
+
+        person_name, score = system.recognizer.recognize(
+            embedding,
+            system.database
+        )
+
+        return {
             "person_name": person_name,
             "score": score
         }
