@@ -24,7 +24,7 @@ TEMP_FOLDER.mkdir(exist_ok=True)
 @app.get("/debug")
 def debug():
     return {
-        "database": list(system.database.get_database().keys())
+        "status": "debug funcionando"
     }
 
 @app.get("/test-vercel")
