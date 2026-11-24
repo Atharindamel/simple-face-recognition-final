@@ -4,9 +4,7 @@ from recognition_system import FaceRecognitionSystem
 import shutil
 from pathlib import Path
 
-app = FastAPI(
-    root_path="/api"
-)
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
@@ -16,11 +14,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-system = FaceRecognitionSystem()
-system.load_known_faces("data/known_faces")
+# system = FaceRecognitionSystem()
+# system.load_known_faces("data/known_faces")
+system = None
 
 TEMP_FOLDER = Path("temp")
 TEMP_FOLDER.mkdir(exist_ok=True)
+
+@app.get("/test-vercel")
+def test_vercel():
+    return {
+        "status": "ok",
+        "message": "FastAPI funcionando en Vercel"
+    }
 
 @app.get("/")
 def home():
