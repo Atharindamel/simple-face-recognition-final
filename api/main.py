@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from recognition_system import FaceRecognitionSystem
 import shutil
 from pathlib import Path
+import traceback
 
 app = FastAPI()
 
@@ -58,24 +59,36 @@ def test():
 
 @app.post("/recognize")
 def recognize(image: UploadFile = File(...)):
+
+    try:
+        image_path = TEMP_FOLDER / image.filename
+
+        with open(image_path,"wb") as buffer:
+            shutil.copyfileobj(image.file, buffer)
+
+        system = get_system()
+
+        person_name, score = system.recognize_image(str(image_path))
+
+        return{
+            "person_name": person_name,
+            "score": score
+        }
     
-    image_path = TEMP_FOLDER / image.filename
-
-    with open(image_path,"wb") as buffer:
-        shutil.copyfileobj(image.file, buffer)
-
-    person_name, score = system.recognize_image(str(image_path))
-
-    return{
-        "person_name": person_name,
-        "score": score
-    }
+    except Exception as e:
+        return {
+            "error": str(e),
+            "type": type(e).__name__,
+            "trace": traceback.format_exc()
+        }
 
 @app.post("/add-person")
 async def add_person(
     person_name: str = Form(...),
     images: list[UploadFile] = File(...)
 ):
+    
+    system = get_system()
 
     loaded_images = []
 
@@ -86,6 +99,7 @@ async def add_person(
         image = system.loader.load_bytes(content)
 
         loaded_images.append(image)
+
 
     result = system.add_person(
         person_name,
